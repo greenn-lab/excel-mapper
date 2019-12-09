@@ -5,10 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ColMapping {
+public @interface ExcelSheet {
 
-  String value() default "";
+  int startRow() default 1;
+
+  String name() default "";
 
 }

@@ -28,7 +28,7 @@ class FlatExcelExtractTests {
   @BeforeAll
   static void init() throws IOException {
     logger.info("start!");
-    workbook = new XSSFWorkbook(new ClassPathResource("sample.xlsx").getInputStream());
+    workbook = new XSSFWorkbook(new ClassPathResource("frozen2.xlsx").getInputStream());
     sheet = workbook.getSheet(SHEET_NAME);
   }
 

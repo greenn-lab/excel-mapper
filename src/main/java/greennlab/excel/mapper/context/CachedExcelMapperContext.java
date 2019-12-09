@@ -1,34 +1,29 @@
 package greennlab.excel.mapper.context;
 
 import greennlab.excel.mapper.ExcelMapper;
-import greennlab.excel.mapper.annotation.SheetMapping;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CachedExcelMapperContext implements ExcelMapperContext {
-  private Map<Class<?>, ExcelMapper<?>> cachedMappers;
+
+  private final CachedExcelMapper cache;
 
   public CachedExcelMapperContext() {
-    cachedMappers = Collections.synchronizedMap(new HashMap<>());
+    cache = new CachedExcelMapper(findAllMappersInClasspath());
   }
 
   @Override
   public <T> ExcelMapper<T> findMapperBy(Class<T> clazz) {
-    if (cachedMappers.containsKey(clazz))
-      return (ExcelMapper<T>) cachedMappers.get(clazz);
-
-    if (!isSheetMapping(clazz))
-      throw new IllegalArgumentException();
-
-    final ExcelMapper<T> newMapper = new ExcelMapper<>(clazz);
-
-    cachedMappers.put(clazz, newMapper);
-    return newMapper;
+    return cache.getMapper(clazz);
   }
 
-  private boolean isSheetMapping(Class<?> clazz) {
-    return clazz.getAnnotationsByType(SheetMapping.class).length > 0;
+
+  private Map<Class<?>, ExcelMapper<?>> findAllMappersInClasspath() {
+    Map<Class<?>, ExcelMapper<?>> result = new HashMap<>();
+
+    // TODO 클래스패스에서 @SheetMapping 들 모두 찾기
+
+    return result;
   }
 }
